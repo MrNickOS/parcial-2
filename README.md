@@ -48,7 +48,7 @@ def remove_files():
    else:
       return False
 ```
-Es imprescindible notar que en el método <i>remove_files()</i> se hace referencia a un fichero test-files. Este fichero DEBE crearse<br>
+Es imprescindible notar que en el método <i>remove_files()</i> se hace referencia a un fichero <i>test-files</i>. Este fichero DEBE crearse<br>
 antes de continuar con este tutorial, para evitar confusiones con posibles problemas de funcionalidad del microservicio, y<br>
 se ubicará en la misma carpeta donde se hayan creado los scripts; en lo posible, el directorio raiz del usuario.<br>
 
@@ -136,7 +136,21 @@ que Postman despliegue lo que aparece en la figura.<br>
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files.png)
 
+Procedemos luego a cambiar la solicitud HTTP, de GET a DELETE. Debe ocurrir esto en el complemento Postman.<br>
+
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_delete.png)
+
+En este punto puede notar que la carpeta <i>test-files</i> dejó de existir, compruébelo presionando en la consola CTRL+C seguido<br>
+del comando <i>ls</i>. Ahora pasamos de eliminar archivos a crearlos. Para ello, dirigirse a Postman, cambiar la orden DELETE a<br>
+POST, dirigirse a la pestaña BODY y seleccionar la opción raw. En el menú desplegable, cambiar a JSON y escribir en el campo de<br>
+texto el siguiente fragmento de código.
+
+```json
+{
+	"filename":"carta",
+	"content": "this is a file content"
+}
+```
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files_recent.png)
 
