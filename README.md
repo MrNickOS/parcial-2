@@ -24,7 +24,7 @@ implica que pueda omitirse el paso de la instalación para la nueva cuenta. Una 
 línea de comandos, y ejecutar así el script principal ingresando al terminal de Centos el comando <i>python files.py</i>.<br><br>
 
 El primer paso es crear el script files_comandos.py que manejará de manera interna los posibles comandos utilizables en la URL
-http://IP:puerto/files donde IP y puerto son la dirección IP y el puerto de escucha que utiliza la máquina virtual servidor de<br>
+http://IP:puerto/files donde IP y puerto son la dirección IP y el puerto de escucha que utiliza la máquina virtual servidor de
 Linux. El código es el siguiente:
 
 ```python
