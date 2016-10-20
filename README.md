@@ -142,7 +142,7 @@ Procedemos luego a cambiar la solicitud HTTP, de GET a DELETE. Debe ocurrir esto
 
 En este punto puede notar que la carpeta <i>test-files</i> dejó de existir, compruébelo presionando en la consola CTRL+C seguido<br>
 del comando <i>ls</i>. Ahora pasamos de eliminar archivos a crearlos. Para ello, dirigirse a Postman, cambiar la orden DELETE a<br>
-POST, dirigirse a la pestaña BODY y seleccionar la opción raw. En el menú desplegable, cambiar a JSON y escribir en el campo de<br>
+POST, dirigirse a la pestaña BODY y seleccionar la opción raw. En el menú desplegable, cambiar a JSON y escribir en el campo de
 texto el siguiente fragmento de código.
 
 ```json
@@ -151,6 +151,10 @@ texto el siguiente fragmento de código.
 	"content": "this is a file content"
 }
 ```
+
+Luego, reiniciar en la consola Linux el servicio Web files.py y reingresar a la URL con el método POST. Debe visualizar esto:
+
+![alt tag] (https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_files.png)
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files_recent.png)
 
