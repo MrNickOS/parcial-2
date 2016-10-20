@@ -19,7 +19,7 @@ Por otro lado también es necesario contar en el navegador Google Chrome con el 
 ###Desarrollo de los servicios<br>
 
 Los servicios se dividen en scripts sobre el lenguaje Python 2.6.6. Para ejecutarlos, es necesario no solo instalar el entorno<br>
-de Flask, si no tambien activarlo. Es necesario recordar que si existen otras cuentas de usuario con este entorno instalado, no<br>
+de Flask, si no tambien activarlo. Es necesario recordar que si existen otras cuentas de usuario con este entorno instalado, no
 implica que pueda omitirse el paso de la instalación para la nueva cuenta. Una vez activado, puede observarse <i>(flask)</i> en la<br>
 línea de comandos, y ejecutar así el script principal ingresando al terminal de Centos el comando <i>python files.py</i>.<br><br>
 
@@ -156,6 +156,17 @@ Luego, reiniciar en la consola Linux el servicio Web files.py y reingresar a la 
 
 ![alt tag] (https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_files.png)
 
+Verificar que efectivamente el archivo ha sido creado, ingresando en la consola de comandos la instrucción <i>ls</i>. Debe ver un<br>
+archivo denominado carta.<br>
+
+Ahora pasaremos a visualizar los archivos recientemente creados, en un término de 60 minutos. Reinicie el servicio y en la barra<br>
+de URL de Postman ingrese la dirección http://IP:puerto/files/recently_created (reemplace IP:puerto por su IP y puerto escucha).<br>
+Puede ver una lista de archivos recién creados como se muestra en la siguiente imagen.<br>
+
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files_recent.png)
+
+###Métodos no utilizados en el microservicio
+
+
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_recent_404.png)
