@@ -48,11 +48,11 @@ def remove_files():
    else:
       return False
 ```
-Es imprescindible notar que en el método remove_files() se hace referencia a un fichero test-files. Este fichero DEBE crearse<br>
+Es imprescindible notar que en el método <i>remove_files()</i> se hace referencia a un fichero test-files. Este fichero DEBE crearse<br>
 antes de continuar con este tutorial, para evitar confusiones con posibles problemas de funcionalidad del microservicio, y<br>
-se ubicará en la misma carpeta donde se hayan creado los scripts, en lo posible, el directorio raiz del usuario.<br>
+se ubicará en la misma carpeta donde se hayan creado los scripts; en lo posible, el directorio raiz del usuario.<br>
 
-El siguiente paso es crear un script llamado files_recientes.py el cual gestionará la consulta de archivos recién creados por<br>
+El siguiente paso es crear un script llamado <i>files_recientes.py</i> el cual gestionará la consulta de archivos recién creados por<br>
 el usuario, es decir, durante el periodo inmediatamente anterior a la consulta. En este caso, el código consultará los ficheros<br>
 recientes de los últimos 60 minutos y los retorna en una lista.
 
@@ -127,6 +127,13 @@ def colocar_recientes():
 if __name__ == "__main__":
    app.run(host='0.0.0.0',port=8084,debug='True')
 ```
+
+###Ejecución del microservicio<br>
+
+Para apreciar la ejecución del servicio Web creado a partir del código fuente presentado, debe activarse el entorno Flask<br>
+y escribir en el terminal de comandos la instrucción <i>python files.py</i>. Luego, abrir Postman y acceder a http://IP:puerto/files<br> con IP y puerto como su dirección IP y respectivo puerto de escucha.<br>
+
+
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_delete.png)
 
