@@ -20,10 +20,10 @@ Por otro lado también es necesario contar en el navegador Google Chrome con el 
 
 Los servicios se dividen en scripts sobre el lenguaje Python 2.6.6. Para ejecutarlos, es necesario no solo instalar el entorno<br>
 de Flask, si no tambien activarlo. Es necesario recordar que si existen otras cuentas de usuario con este entorno instalado, no
-implica que pueda omitirse el paso de la instalación para la nueva cuenta. Una vez activado, puede observarse <i>(flask)</i> en la<br>
+implica que pueda omitirse el paso de la instalación para la nueva cuenta. Una vez activado, puede observarse <i>(flask)</i> en la
 línea de comandos, y ejecutar así el script principal ingresando al terminal de Centos el comando <i>python files.py</i>.<br><br>
 
-El primer paso es crear el script files_comandos.py que manejará de manera interna los posibles comandos utilizables en la URL<br>
+El primer paso es crear el script files_comandos.py que manejará de manera interna los posibles comandos utilizables en la URL
 http://IP:puerto/files donde IP y puerto son la dirección IP y el puerto de escucha que utiliza la máquina virtual servidor de<br>
 Linux. El código es el siguiente:
 
@@ -66,7 +66,7 @@ def get_all_recent():
 ```
 
 El tercer paso es crear el script files.py. Este actúa como código main, es decir, invoca métodos de los scripts previos y<br>
-los ejecuta de manera que quedan enlazados con la URL deseada. En este código fuente, pueden observarse las @app.route que<br>
+los ejecuta de manera que quedan enlazados con la URL deseada. En este código fuente, pueden observarse las @app.route que
 definen la URL a la que se accederá según la función solicitada al microservicio.<br>
 ```python
 from flask import Flask, abort, request
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 ###Ejecución del microservicio<br>
 
 Para apreciar la ejecución del servicio Web creado a partir del código fuente presentado, debe activarse el entorno Flask<br>
-y escribir en el terminal de comandos la instrucción <i>python files.py</i>. Luego, abrir Postman y acceder a http://IP:puerto/files<br> con IP y puerto como su dirección IP y puerto de escucha. Debe configurarse la solicitud en GET al lado de la URL. Se espera<br>
+y escribir en el terminal de comandos la instrucción <i>python files.py</i>. Luego, abrir Postman y acceder a http://IP:puerto/files<br> con IP y puerto como su dirección IP y puerto de escucha. Debe configurarse la solicitud en GET al lado de la URL. Se espera
 que Postman despliegue lo que aparece en la figura.<br>
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files.png)
@@ -167,6 +167,11 @@ Puede ver una lista de archivos recién creados como se muestra en la siguiente 
 
 ###Métodos no utilizados en el microservicio
 
-
+En las URL existen solicitudes HTTP que no retornan ningún valor y por ende no ofrecen funcionalidades en el microservicio.<br>
+Es el caso de PUT para ambas URL utilizadas, o POST y DELETE para http://IP:puerto/files/recently_created. Pruebe el método<br>
+POST en la ruta anterior, deberá aparecer en Postman el siguiente mensaje.
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_recent_404.png)
+
+Note el error 404 en Status. Este aparece porque el script principal (refiérase a files.py) definió la respuesta HTTP 404 para<br>
+estos casos. Puede probar esto para los métodos especificados en esta sección y sus rutas respectivas.
