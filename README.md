@@ -159,7 +159,7 @@ Luego, reiniciar en la consola Linux el servicio Web files.py y reingresar a la 
 Verificar que efectivamente el archivo ha sido creado, ingresando en la consola de comandos la instrucción <i>ls</i>. Debe ver un<br>
 archivo denominado carta.<br>
 
-Ahora pasaremos a visualizar los archivos recientemente creados, en un término de 60 minutos. Reinicie el servicio y en la barra<br>
+Ahora pasaremos a visualizar los archivos recientemente creados, en un término de 60 minutos. Reinicie el servicio y en la barra
 de URL de Postman ingrese la dirección http://IP:puerto/files/recently_created (reemplace IP:puerto por su IP y puerto escucha).<br>
 Puede ver una lista de archivos recién creados como se muestra en la siguiente imagen.<br>
 
@@ -167,8 +167,8 @@ Puede ver una lista de archivos recién creados como se muestra en la siguiente 
 
 ###Métodos no utilizados en el microservicio
 
-En las URL existen solicitudes HTTP que no retornan ningún valor y por ende no ofrecen funcionalidades en el microservicio.<br>
-Es el caso de PUT para ambas URL utilizadas, o POST y DELETE para http://IP:puerto/files/recently_created. Pruebe el método<br>
+En las URL existen solicitudes HTTP que no retornan ningún valor y por ende no ofrecen funcionalidades en el microservicio.
+Es el caso de PUT para ambas URL utilizadas, o POST y DELETE para http://IP:puerto/files/recently_created. Pruebe el método
 POST en la ruta anterior, deberá aparecer en Postman el siguiente mensaje.
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_recent_404.png)
