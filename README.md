@@ -49,8 +49,8 @@ def remove_files():
       return False
 ```
 Es imprescindible notar que en el método remove_files() se hace referencia a un fichero test-files. Este fichero DEBE crearse<br>
-antes de continuar con este tutorial, para evitar confusiones con posibles problemas de funcionalidad del microservicio, y se<br>
-ubicará en la misma carpeta donde se hayan creado los scripts, en lo posible, el directorio raiz del usuario.<br>
+antes de continuar con este tutorial, para evitar confusiones con posibles problemas de funcionalidad del microservicio, y<br>
+se ubicará en la misma carpeta donde se hayan creado los scripts, en lo posible, el directorio raiz del usuario.<br>
 
 El siguiente paso es crear un script llamado files_recientes.py el cual gestionará la consulta de archivos recién creados por<br>
 el usuario, es decir, durante el periodo inmediatamente anterior a la consulta. En este caso, el código consultará los ficheros<br>
@@ -64,7 +64,70 @@ def get_all_recent():
    rec_list = Popen(["awk",'-F','/','{print $NF}'],stdin=elProceso.stdout, stdout=PIPE).communicate()[0].split('\n')
    return filter(None,rec_list)
 ```
- 
+
+El tercer paso es crear el script files.py. Este actúa como código main, es decir, invoca métodos de los scripts previos y<br>
+los ejecuta de manera que quedan enlazados con la URL deseada. En este código fuente, pueden observarse las @app.route que<br>
+definen la URL a la que se accederá según la función solicitada al microservicio.<br>
+```python
+from flask import Flask, abort, request
+import json
+
+from files_comandos import create_file, get_all_files, remove_files
+from files_recientes import get_all_recent
+
+app = Flask(__name__)
+
+@app.route('/files', methods=['POST'])
+def crear_archivo():
+   cont_json = request.get_json(silent=False, force=True)
+   filename = cont_json['filename']
+   content = cont_json['content']
+   if not filename:
+      return 'No ha asignado un nombre al archivo!',400
+   if create_file(filename, content):
+      return 'Se ha creado exitosamente el archivo',200
+   else:
+      return 'No se pudo crear el archivo',400
+
+@app.route('/files', methods=['GET'])
+def lista_archivos():
+   miLista = {}
+   miLista["files"] = get_all_files()
+   return json.dumps(miLista)
+
+@app.route('/files', methods=['DELETE'])
+def eliminar_archivos():
+   if not remove_files():
+      return 'No se pudo eliminar exitosamente todos los archivos :(', 400
+   else:
+      return 'Los archivos fueron eliminados con exito del directorio :)', 200
+
+@app.route('/files', methods=['PUT'])
+def colocar_archivos():
+   abort(404)
+
+@app.route('/files/recently_created', methods=['GET'])
+def lista_recientes():
+   recent_list = {}
+   recent_list["recent"] = get_all_recent()
+   return json.dumps(recent_list)
+
+@app.route('/files/recently_created', methods=['POST'])
+def crear_recientes():
+   abort(404)
+
+@app.route('/files/recently_created', methods=['DELETE'])
+def eliminar_recientes():
+   abort(404)
+
+@app.route('/files/recently_created', methods=['PUT'])
+def colocar_recientes():
+   abort(404)
+
+if __name__ == "__main__":
+   app.run(host='0.0.0.0',port=8084,debug='True')
+```
+
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_delete.png)
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files.png)
