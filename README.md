@@ -131,13 +131,12 @@ if __name__ == "__main__":
 ###Ejecución del microservicio<br>
 
 Para apreciar la ejecución del servicio Web creado a partir del código fuente presentado, debe activarse el entorno Flask<br>
-y escribir en el terminal de comandos la instrucción <i>python files.py</i>. Luego, abrir Postman y acceder a http://IP:puerto/files<br> con IP y puerto como su dirección IP y respectivo puerto de escucha.<br>
-
-
-
-![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_delete.png)
+y escribir en el terminal de comandos la instrucción <i>python files.py</i>. Luego, abrir Postman y acceder a http://IP:puerto/files<br> con IP y puerto como su dirección IP y puerto de escucha. Debe configurarse la solicitud en GET al lado de la URL. Se espera<br>
+que Postman despliegue lo que aparece en la figura.<br>
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files.png)
+
+![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_delete.png)
 
 ![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files_recent.png)
 
