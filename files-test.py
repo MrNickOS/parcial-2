@@ -7,15 +7,6 @@ from files_recientes import get_all_recent, prueba_recent
 app = Flask(__name__)
 
 def test_crear_archivo():
-   #cont_json = request.get_json(silent=False, force=True)
-   #filename = cont_json['filename']
-   #content = cont_json['content']
-   #if not filename:
-   #   return 'No ha asignado un nombre al archivo!'
-   #if create_file(filename, content):
-   #   return 'Se ha creado exitosamente el archivo'
-   #else:
-   #   return 'No se pudo crear el archivo'
    prueba_create_file("primero", "Primer archivo de test")
    prueba_create_file("", "Fichero vacio")
    prueba_create_file("segundo", "Fichero de pruebas numero 2")
