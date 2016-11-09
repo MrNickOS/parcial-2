@@ -1,31 +1,24 @@
-##Desarrollo de servicios web con Python 2.6.6 en MV Linux Centos 6.8<br>
+##Pruebas unitarias de servicios con Pytest, Continuous Integration en Jenkins<br>
 
-###<b>Autor</b>: Nicolás Machado Sáenz<br>
+###<b>Autor</b>: Nicolás Machado Sáenz Cod. 13207014<br>
 ###Universidad Icesi - Semestre 2016-2<br><br>
 
-A continuación veremos cómo realizo la implementación de servicios Web sencillos mediante el lenguaje de programación<br>
-Python y el ambiente Flask. En este caso, básicamente se manipularán algunos archivos pertenecientes al directorio raíz<br>
-de un usuario, realizando peticiones desde un complemento de navegador Web.<br><br>
+Para esta actividad se realizaron pruebas unitarias a diferentes servicios en el lenguaje Python. Esto es, se verifica el funcionamiento de los mismos a través de una instrucción denominada assert, lo cual significa generar escenarios en los cuales la función ensayada puede devolver un resultado de error o de ejecución correcta. Las funciones a probar derivan de las utilizadas en el parcial 1.
 
 ####Más especificamente, se realizan las siguientes operaciones sobre el directorio del usuario:<br>
-* Creación de archivos con manejo de JSON.
-* Obtencion de listado de archivos, tanto total como de recientemente creados.
-* Eliminacion de un archivo o directorio de archivos.
+* Creación de archivos cualesquiera.
+* Eliminación de archivos, a partir de la obtención de una lista.
+* Comprobación de archivos recientes; comprueba si un archivo fue creado dentro de un tiempo determinado.
       
-Antes de proceder con el ejercicio, se crea una cuenta de usuario en Centos 6.8 con el nombre <i>filesystem_user</i> y una<br>
-contraseña correspondiente. Una vez creada esta cuenta, se accede a ella y se instala el entorno <i>Flask</i>.<br>
-Por otro lado también es necesario contar en el navegador Google Chrome con el complemento web Postman.<br>
+Para la plataforma Jenkins no se utilizaron credenciales, se trabajo sobre la cuenta de usuario <b>root</b> en Centos 6.8 Servidor y se utilizó el ambiente <b>testproject</b>.
 
-###Desarrollo de los servicios<br>
+###Implementación de los servicios y sus pruebas<br>
 
-Los servicios se dividen en scripts sobre el lenguaje Python 2.6.6. Para ejecutarlos, es necesario no solo instalar el entorno<br>
-de Flask, si no tambien activarlo. Es necesario recordar que si existen otras cuentas de usuario con este entorno instalado, no
-implica que pueda omitirse el paso de la instalación para la nueva cuenta. Una vez activado, puede observarse <i>(flask)</i> en la
-línea de comandos, y ejecutar así el script principal ingresando al terminal de Centos el comando <i>python files.py</i>.<br><br>
+Los servicios generados en esta ocasión toman como base los scripts que proveen servicios Web correspondientes al I Parcial. Sobre estos se ejecutaron algunas modificaciones, incluyendo la eliminación de etiquetas a trafico web, la inclusión de metodos prueba en todos los scripts y el hecho de no trabajar más sobre lenguaje JSON.
 
-El primer paso es crear el script files_comandos.py que manejará de manera interna los posibles comandos utilizables en la URL
-http://IP:puerto/files donde IP y puerto son la dirección IP y el puerto de escucha que utiliza la máquina virtual servidor de
-Linux. El código es el siguiente:
+Primeramente se trabaja sobre el script files_comandos-test.py, que define los servicios prestados como son la creación de ficheros (no incluye directorios), y la eliminación de archivos a partir de una lista obtenida de todos los ficheros presentes en el directorio donde se ejecuta la aplicación. Así mismo, se adicionan un par de métodos los cuales ejecutan la instrucción assert sobre un escenario basado en los parámetros de prueba ingresados en estas funciones. Esto se puede apreciar en la figura 1.
+
+
 
 ```python
 from subprocess import Popen, PIPE
