@@ -103,7 +103,7 @@ if __name__ == "__main__":
    app.run('0.0.0.0')
 ```
 
-###Habilitación del ambiente<br>
+###Habilitación del ambiente y ejecución de pruebas en MV<br>
 
 Para poder ejecutar los scripts en Pytest, se debe habilitar el ambiente testproject. Esto se realiza en la consola de comandos de Linux Centos 6.8 Servidor tal como se muestra en la siguiente figura.
 
@@ -114,34 +114,3 @@ Procedemos entonces a probar el script principal en Pytest. Como nos encontramos
 ![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/pytest_prueba.png)
 
 Nótese en esta parte de la actividad que no solo se ha probado las funciones del microservicio; también se han ejecutado, puede verse al final de la imagen un archivo "primero" creado durante el test (en la mitad de la imagen).
-
-```json
-{
-	"filename":"carta",
-	"content": "this is a file content"
-}
-```
-
-Luego, reiniciar en la consola Linux el servicio Web files.py y reingresar a la URL con el método POST. Debe visualizar esto:
-
-![alt tag] (https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_files.png)
-
-Verificar que efectivamente el archivo ha sido creado, ingresando en la consola de comandos la instrucción <i>ls</i>. Debe ver un<br>
-archivo denominado carta.<br>
-
-Ahora pasaremos a visualizar los archivos recientemente creados, en un término de 60 minutos. Reinicie el servicio y en la barra
-de URL de Postman ingrese la dirección http://IP:puerto/files/recently_created (reemplace IP:puerto por su IP y puerto escucha).<br>
-Puede ver una lista de archivos recién creados como se muestra en la siguiente imagen.<br>
-
-![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files_recent.png)
-
-###Métodos no utilizados en el microservicio
-
-En las URL existen solicitudes HTTP que no retornan ningún valor y por ende no ofrecen funcionalidades en el microservicio.
-Es el caso de PUT para ambas URL utilizadas, o POST y DELETE para http://IP:puerto/files/recently_created. Pruebe el método
-POST en la ruta anterior, deberá aparecer en Postman el siguiente mensaje.
-
-![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_post_recent_404.png)
-
-Note el error 404 en Status. Este aparece porque el script principal (refiérase a files.py) definió la respuesta HTTP 404 para<br>
-estos casos. Puede probar esto para los métodos especificados en esta sección y sus rutas respectivas.
