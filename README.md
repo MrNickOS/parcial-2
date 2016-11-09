@@ -107,16 +107,13 @@ if __name__ == "__main__":
 
 Para poder ejecutar los scripts en Pytest, se debe habilitar el ambiente testproject. Esto se realiza en la consola de comandos de Linux Centos 6.8 Servidor tal como se muestra en la siguiente figura.
 
-![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/activacion_testproject.png)
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/activate_testproject.png)
 
-Procedemos luego a cambiar la solicitud HTTP, de GET a DELETE. Debe ocurrir esto en el complemento Postman.<br>
+Procedemos entonces a probar el script principal en Pytest. Como nos encontramos en el directorio raíz, el argumento del comando pytest incluye la ruta completa del script a testear. El resultado puede verse en el screenshot a continuación.
 
-![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_delete.png)
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/pytest_prueba.png)
 
-En este punto puede notar que la carpeta <i>test-files</i> dejó de existir, compruébelo presionando en la consola CTRL+C seguido<br>
-del comando <i>ls</i>. Ahora pasamos de eliminar archivos a crearlos. Para ello, dirigirse a Postman, cambiar la orden DELETE a<br>
-POST, dirigirse a la pestaña BODY y seleccionar la opción raw. En el menú desplegable, cambiar a JSON y escribir en el campo de
-texto el siguiente fragmento de código.
+Nótese en esta parte de la actividad que no solo se ha probado las funciones del microservicio; también se han ejecutado, puede verse al final de la imagen un archivo "primero" creado durante el test (en la mitad de la imagen).
 
 ```json
 {
