@@ -18,116 +18,96 @@ Los servicios generados en esta ocasión toman como base los scripts que proveen
 
 Primeramente se trabaja sobre el script files_comandos-test.py, que define los servicios prestados como son la creación de ficheros (no incluye directorios), y la eliminación de archivos a partir de una lista obtenida de todos los ficheros presentes en el directorio donde se ejecuta la aplicación. Así mismo, se adicionan un par de métodos los cuales ejecutan la instrucción assert sobre un escenario basado en los parámetros de prueba ingresados en estas funciones. Esto se puede apreciar en la figura 1.
 
-
-
 ```python
 from subprocess import Popen, PIPE
+import pytest
 
 def create_file(filename, content):
-   proceso1 = Popen(["touch",filename])
-   proceso1 = Popen(["echo",content,">>",filename], stdout=PIPE, stderr=PIPE)
-   proceso1.wait()
-   return True if filename in get_all_files() else False
+   if filename == '':
+	print "No hay un nombre para el archivo"
+	return False
+   elif content == '':
+	print "No se puede crear archivos vacios"
+	return False
+   else:
+   	proceso1 = Popen(["touch",filename])
+   	proceso1 = Popen(["echo",content,">>",filename], stdout=PIPE, stderr=PIPE)
+   	proceso1.wait()
+   	return True if filename in get_all_files() else False
+
+def prueba_create_file(nom_arch, cont_arch):
+   assert create_file(nom_arch, cont_arch), "Imposible generar el fichero "+nom_arch
 
 def get_all_files():
    proceso2 = Popen(["ls", "-l"], stdout=PIPE)
    lista_arch = Popen(["awk",'-F',' ','{print $9}'], stdin=proceso2.stdout, stdout=PIPE).communicate()[0].split('\n')
    return filter(None, lista_arch)
 
-def remove_files():
-   if "test-files" in get_all_files():
-      proceso3 = Popen(["rm", "-r", "test-files"], stdout=PIPE)
+def remove_files(file_remove):
+   if file_remove in get_all_files():
+      proceso3 = Popen(["rm", "-r", file_remove], stdout=PIPE)
       return True
    else:
       return False
-```
-Es imprescindible notar que en el método <i>remove_files()</i> se hace referencia a un fichero <i>test-files</i>. Este fichero DEBE crearse<br>
-antes de continuar con este tutorial, para evitar confusiones con posibles problemas de funcionalidad del microservicio, y<br>
-se ubicará en la misma carpeta donde se hayan creado los scripts; en lo posible, el directorio raiz del usuario.<br>
 
-El siguiente paso es crear un script llamado <i>files_recientes.py</i> el cual gestionará la consulta de archivos recién creados por<br>
-el usuario, es decir, durante el periodo inmediatamente anterior a la consulta. En este caso, el código consultará los ficheros<br>
-recientes de los últimos 60 minutos y los retorna en una lista.
+def prueba_get_remove(arch_eliminar):
+   assert remove_files(arch_eliminar), "Imposible eliminar "+arch_eliminar+": El fichero no existe!" 
+```
+
+La siguiente actividad es generar un script llamado <i>files_recientes-test.py</i> que accede a una lista de archivos recién creados por el usuario. En este caso, el código implementa el método de prueba, que consulta si un archivo cuyo nombre es pasado por parámetro hace parte de los ficheros generados durante los últimos X minutos (también como argumento) y, si no es así, devuelve un AssertionError.
 
 ```python
 from subprocess import Popen, PIPE
+import pytest
 
-def get_all_recent():
-   elProceso = Popen(["find","-type","f","-mmin","-60"], stdout=PIPE)
+def get_all_recent(tiempo):
+   mmin = "-" + str(tiempo)
+   elProceso = Popen(["find","-type","f","-mmin", mmin], stdout=PIPE)
    rec_list = Popen(["awk",'-F','/','{print $NF}'],stdin=elProceso.stdout, stdout=PIPE).communicate()[0].split('\n')
    return filter(None,rec_list)
+
+def prueba_recent(n_arch, time):
+   assert "nombres" in get_all_recent(time), "No se ha creado un archivo "+n_arch+" en los ultimos "+str(time)+" minutos"
 ```
 
-El tercer paso es crear el script files.py. Este actúa como código main, es decir, invoca métodos de los scripts previos y<br>
-los ejecuta de manera que quedan enlazados con la URL deseada. En este código fuente, pueden observarse las @app.route que
-definen la URL a la que se accederá según la función solicitada al microservicio.<br>
+A continuación se escribe el código fuente de files-test.py. Este script es el main de la aplicación, accede a las funciones que proveen los códigos generados anteriormente y propone escenarios en donde las funciones principales pueden ejecutarse exitosamente o fallar si algún parámetro es incorrecto o no se puede acceder a un recurso específico.
+
 ```python
 from flask import Flask, abort, request
 import json
 
-from files_comandos import create_file, get_all_files, remove_files
-from files_recientes import get_all_recent
+from files_comandos import create_file, prueba_create_file, get_all_files, remove_files, prueba_get_remove
+from files_recientes import get_all_recent, prueba_recent
 
 app = Flask(__name__)
 
-@app.route('/files', methods=['POST'])
-def crear_archivo():
-   cont_json = request.get_json(silent=False, force=True)
-   filename = cont_json['filename']
-   content = cont_json['content']
-   if not filename:
-      return 'No ha asignado un nombre al archivo!',400
-   if create_file(filename, content):
-      return 'Se ha creado exitosamente el archivo',200
-   else:
-      return 'No se pudo crear el archivo',400
+def test_crear_archivo():
+   prueba_create_file("primero", "Primer archivo de test")
+   prueba_create_file("", "Fichero vacio")
+   prueba_create_file("segundo", "Fichero de pruebas numero 2")
+   prueba_create_file("5ntenido", "")
 
-@app.route('/files', methods=['GET'])
-def lista_archivos():
-   miLista = {}
-   miLista["files"] = get_all_files()
-   return json.dumps(miLista)
+def test_lista_recientes():
+   prueba_recent("primero", 20)
+   prueba_recent("segundo", 15)
+   prueba_recent("otro", 60)
+   prueba_recent("5ntenido", 90)
 
-@app.route('/files', methods=['DELETE'])
-def eliminar_archivos():
-   if not remove_files():
-      return 'No se pudo eliminar exitosamente todos los archivos :(', 400
-   else:
-      return 'Los archivos fueron eliminados con exito del directorio :)', 200
-
-@app.route('/files', methods=['PUT'])
-def colocar_archivos():
-   abort(404)
-
-@app.route('/files/recently_created', methods=['GET'])
-def lista_recientes():
-   recent_list = {}
-   recent_list["recent"] = get_all_recent()
-   return json.dumps(recent_list)
-
-@app.route('/files/recently_created', methods=['POST'])
-def crear_recientes():
-   abort(404)
-
-@app.route('/files/recently_created', methods=['DELETE'])
-def eliminar_recientes():
-   abort(404)
-
-@app.route('/files/recently_created', methods=['PUT'])
-def colocar_recientes():
-   abort(404)
+def test_lista_eliminar_archivos():
+   prueba_get_remove("segundo")
+   prueba_get_remove("5ntenido")
+   prueba_get_remove("tercero")
+   prueba_get_remove("primero")
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0',port=8084,debug='True')
+   app.run('0.0.0.0')
 ```
 
-###Ejecución del microservicio<br>
+###Habilitación del ambiente<br>
 
-Para apreciar la ejecución del servicio Web creado a partir del código fuente presentado, debe activarse el entorno Flask<br>
-y escribir en el terminal de comandos la instrucción <i>python files.py</i>. Luego, abrir Postman y acceder a http://IP:puerto/files<br> con IP y puerto como su dirección IP y puerto de escucha. Debe configurarse la solicitud en GET al lado de la URL. Se espera
-que Postman despliegue lo que aparece en la figura.<br>
+Para poder ejecutar los scripts en Pytest, se debe habilitar el ambiente testproject. Esto se realiza en la consola de comandos de Linux Centos 6.8 Servidor tal como se muestra en la siguiente figura.
 
-![alt tag](https://github.com/MrNickOS/parcial-1/blob/rama_01/postman_get_files.png)
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/activacion_testproject.png)
 
 Procedemos luego a cambiar la solicitud HTTP, de GET a DELETE. Debe ocurrir esto en el complemento Postman.<br>
 
