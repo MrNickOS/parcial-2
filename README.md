@@ -114,3 +114,15 @@ Procedemos entonces a probar el script principal en Pytest. Como nos encontramos
 ![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/pytest_prueba.png)
 
 Nótese en esta parte de la actividad que no solo se ha probado las funciones del microservicio; también se han ejecutado, puede verse al final de la imagen un archivo "primero" creado durante el test (en la mitad de la imagen).
+
+###Configuración del servidor Jenkins<br>
+
+En este punto de la actividad, se inició sesión en Jenkins ingresando en Linux el comando <i>sudo su jenkins</i>. Este activa la plataforma de modo que al ingresar en el browser la IP del host de trabajo seguida del puerto 8080, configurado por defecto en el main, debe visualizarse la pantalla principal de Jenkins, similar a esta.
+
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/pantallazo_jenkins.png)
+
+La configuración inicial se realizó sin credenciales. Se creó un proyecto denominado test-project (forked del repositorio de ayuda para este parcial) y sus parametros se configuraron como se ve en la figura.
+
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/conf-jenkins-1.png)
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/conf-jenkins-2.png)
+![alt tag](https://github.com/MrNickOS/parcial-2/blob/rama_01/conf-jenkins-3.png)
